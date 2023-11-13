@@ -40,4 +40,4 @@ post_config = {
 }
 
 response = requests.post(url=post_endpoint, json=post_config, headers=headers)
-print(response.text)
+
