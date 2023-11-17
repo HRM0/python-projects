@@ -1,15 +1,18 @@
-from bs4 import BeautifulSoup
-import requests
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
-#dateToLookUp = input("What year would you like to travel to? (YYYY-MM-DD) ")
-dateToLookUp = "2005-07-01"
-response = requests.get(f"https://www.billboard.com/charts/hot-100/{dateToLookUp}/")
-yc_web_page = response.text
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_experimental_option("detach", True)
 
-soup = BeautifulSoup(yc_web_page, "html.parser")
-betterSoup = soup.select("li ul li h3", id="title-of-a-story")
-titles = []
-for title in betterSoup:
-    titles.append(title.get_text().strip())
+driver = webdriver.Chrome(options=chrome_options)
+driver.get("https://www.amazon.com/dp/B075CYMYK6?psc=1&ref_=cm_sw_r_cp_ud_ct_FM9M699VKHTT47YD50Q6")
 
-print(titles)
+price_dollar = driver.find_element(By.CLASS_NAME, value="a-price-whole")
+price_cents = driver.find_element(By.CLASS_NAME, value="a-price-fraction")
+#print(f"the price is {price_dollar.text}.{price_cents.text}")
+
+searchBar = driver.find_element(By.NAME, value="field-keywords")
+print(searchBar)
+
+#driver.close()
+driver.quit()
