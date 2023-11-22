@@ -5,14 +5,22 @@ chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option("detach", True)
 
 driver = webdriver.Chrome(options=chrome_options)
-driver.get("https://www.amazon.com/dp/B075CYMYK6?psc=1&ref_=cm_sw_r_cp_ud_ct_FM9M699VKHTT47YD50Q6")
+driver.get("https://www.python.org/")
 
-price_dollar = driver.find_element(By.CLASS_NAME, value="a-price-whole")
-price_cents = driver.find_element(By.CLASS_NAME, value="a-price-fraction")
-#print(f"the price is {price_dollar.text}.{price_cents.text}")
+events = driver.find_element(By.XPATH, value='//*[@id="content"]/div/section/div[3]/div[2]/div/ul')
+eventArray = []
+eventDic = {}
+# Split the text into lines
+event_lines = events.text.split('\n')
 
-searchBar = driver.find_element(By.NAME, value="field-keywords")
-print(searchBar)
+# Iterate over the lines
+for event in event_lines:
+    eventArray.append(event)
 
+# Populate in dictionary
+for i in range(0, len(eventArray)-1, 2):
+    eventDic[i] = {"time": str(eventArray[i]), "name": str(eventArray[i+1])}
+
+print(eventDic)
 #driver.close()
 driver.quit()
